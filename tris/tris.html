@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Tris</title>
+<style>
+h1 {
+	
+	text-align: center;
+	font-size: 100px;
+	font-family: "Lucida Handwriting";
+    background: linear-gradient(fuchsia, cyan);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+	font-weight: bold;
+}
+
+table {
+  margin: auto;
+  color: deeppink;
+}
+
+td {
+
+  width: 200px;
+  height: 200px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  border: solid;
+
+}
+
+body {
+	background-color: black;
+}
+
+.segno {
+	width: 200px;
+	height: 200px;
+	text-align: justify;
+	position: relative;
+	left: 150px;
+	top: 50px;
+	margin: -100px 0 0 -100px;
+}
+
+.stile {
+	text-align: center;
+	font-family: "Lucida Handwriting";
+	width: 1500px;
+	height: 400px;
+	margin: -120px 0 0 -750px;
+	top: 50%;
+	left: 50%;
+	position: absolute;
+	border-style: solid;
+	border-color: deeppink;
+	background: black;
+	color: deeppink;
+	z-index: 500;
+	padding: 30px 30px;
+	border-width: 5px;
+}
+
+.button {
+  background-color: black;
+  border: solid;
+  color: cyan;
+  padding: 15px 32px;
+  position: absolute;
+  margin: 0px 0 0 -264px;
+  top: 70%;
+  left: 50%;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+#barra {
+	position: absolute;
+	z-index: 500;
+	width: 5px; 
+	height: 5px; 
+	background-color: aqua;
+}
+
+#diagonal {
+	position: absolute;
+	z-index: 500;
+}
+
+</style>
+</head>
+<body id = "body">
+<h1>✘◑ TRIS ◐✘</h1>
+<table>
+	<tr>
+	<td id="c1" style = "border-style: none solid solid none" onclick="mossa(1)"></td>
+	<td id="c2" style = "border-style: none solid solid solid" onclick="mossa(2)"></td>
+	<td id="c3" style = "border-style: none none solid solid" onclick="mossa(3)"></td>
+	</tr>
+	<tr>
+	<td id="c4" style = "border-style: solid solid solid none" onclick="mossa(4)"></td>
+	<td id="c5" onclick="mossa(5)"></td>
+	<td id="c6" style = "border-style: solid none solid solid" onclick="mossa(6)"></td>
+	</tr>
+	<tr>
+	<td id="c7" style = "border-style: solid solid none none" onclick="mossa(7)"></td>
+	<td id="c8" style = "border-style: solid solid none solid"onclick="mossa(8)"></td>
+	<td id="c9" style = "border-style: solid none none solid" onclick="mossa(9)"></td>
+	</tr>
+</table>
+</body>
+<script>
+
+let soundtrack;
+let count = 0;
+let cerchi = [];
+let croci = [];
+
+const oriz1 = [1,2,3];
+const oriz2 = [4,5,6];
+const oriz3 = [7,8,9];
+
+const vert1 = [1,4,7];
+const vert2 = [2,5,8];
+const vert3 = [3,6,9];
+
+const diag1 = [1,5,9];
+const diag2 = [3,5,7];
+
+
+let isGameFinished;
+let cella;
+let direzione;
+let elemento;
+
+function mossa(numero){
+
+	if (!isGameFinished){
+	
+		let test = document.createElement("div");
+		test.innerHTML = "✘";
+		test.style.color = "cyan";
+		test.style.width = "100px";
+		test.style.fontSize = "100px";
+		test.style.textAlign = "center";
+		test.setAttribute("id", numero);
+		test.setAttribute("class", "segno");
+
+		if (document.getElementById(numero) === null){
+		
+			document.getElementById("c" + numero).appendChild(test);
+			count++;
+				
+		}
+		
+		if (count%2 === 0){
+			test.innerHTML = "〇";
+			test.style.color = "fuchsia";
+			cerchi.push(numero);
+			soundtrack = new Audio('suonocerchi.wav');
+			soundtrack.play();
+		}
+		else { 
+			croci.push(numero);
+			soundtrack = new Audio('suonocroci.wav');
+			soundtrack.play();
+		}
+		
+		isGameFinished = count === 9 || (oriz1.every(x => cerchi.includes(x))) || (oriz2.every(x => cerchi.includes(x))) || 
+		(oriz3.every(x => cerchi.includes(x))) || (vert1.every(x => cerchi.includes(x))) || (vert2.every(x => cerchi.includes(x))) || 
+		(vert3.every(x => cerchi.includes(x))) || (diag1.every(x => cerchi.includes(x))) || (diag2.every(x => cerchi.includes(x))) || 
+		(oriz1.every(x => croci.includes(x))) || (oriz2.every(x => croci.includes(x))) || (oriz3.every(x => croci.includes(x))) || 
+		(vert1.every(x => croci.includes(x)))|| (vert2.every(x => croci.includes(x))) || (vert3.every(x => croci.includes(x))) || 
+		(diag1.every(x => croci.includes(x))) || (diag2.every(x => croci.includes(x))) 
+		
+		if ((oriz1.every(x => cerchi.includes(x))) || (oriz1.every(x => croci.includes(x)))){
+			cella = "c1";
+			direzione = "orizzontale";
+		}
+		else if ((oriz2.every(x => cerchi.includes(x))) || (oriz2.every(x => croci.includes(x)))){
+			cella = "c4";
+			direzione = "orizzontale";
+		}
+		else if ((oriz3.every(x => cerchi.includes(x))) || (oriz3.every(x => croci.includes(x)))){
+			cella = "c7";
+			direzione = "orizzontale";
+		}
+		else if ((vert1.every(x => cerchi.includes(x))) || (vert1.every(x => croci.includes(x)))){
+			cella = "c1";
+			direzione = "verticale";
+		}
+		else if ((vert2.every(x => cerchi.includes(x))) || (vert2.every(x => croci.includes(x)))){
+			cella = "c2";
+			direzione = "verticale";
+		}
+		else if ((vert3.every(x => cerchi.includes(x))) || (vert3.every(x => croci.includes(x)))){
+			cella = "c3";
+			direzione = "verticale";
+		}
+		else if ((diag1.every(x => cerchi.includes(x))) || (diag1.every(x => croci.includes(x)))){
+			cella = "c1";
+			direzione = "diagonale";
+		}
+		else if ((diag2.every(x => cerchi.includes(x))) || (diag2.every(x => croci.includes(x)))){
+			cella = "c3";
+			direzione = "diagonale";
+		}
+		
+		
+		if (isGameFinished && count !== 9){
+		animazione();
+		}
+		
+		if (isGameFinished) setTimeout(schermataFinale, 1000);
+	}
+}
+
+function animazione(){
+	
+	soundtrack = new Audio('vittoria.ogg');
+	soundtrack.play();
+
+	if(direzione === "orizzontale" || direzione === "verticale"){
+
+		let elemento = document.createElement("div");
+		elemento.setAttribute("id", "barra");
+		document.getElementById("body").appendChild(elemento);
+		elemento = document.getElementById("barra");
+		
+		switch(cella){
+			case "c4" :
+				barra.style.top = "570px";
+				barra.style.left = "635px";
+				break;
+			case "c7" :
+				barra.style.top = "770px";
+				barra.style.left = "635px";
+				break;
+			case "c2" :
+				barra.style.top = "265px";
+				barra.style.left = "960px";
+				break;
+			case "c3" :
+				barra.style.top = "265px";
+				barra.style.left = "1170px";
+				break;
+		}
+		
+		if (cella === "c1" && direzione === "orizzontale"){
+			barra.style.top = "370px";
+			barra.style.left = "635px";
+		}
+
+		else if (cella === "c1" && direzione === "verticale"){
+			barra.style.top = "265px";
+			barra.style.left = "750px";
+		}
+		
+			
+		let id = null;
+		let pos = 0;
+		clearInterval(id);
+		id = setInterval(frame, 1);
+		function frame() {
+			if (pos >= 350) {
+				clearInterval(id);
+			} else {
+				pos+= 5;
+				if (direzione === "orizzontale"){
+					elemento.style.width = 300 + pos + "px";
+				}
+				if (direzione === "verticale"){
+					elemento.style.height = 300 + pos + "px";
+				}
+			}
+		}
+	}
+	
+	if (direzione === "diagonale"){
+	
+		if (cella === "c1"){
+			let diagon = document.createElement("img");
+			diagon.setAttribute("src","diagonaleAnimazione.gif");
+			document.getElementById("body").appendChild(diagon);
+			diagon.setAttribute("id", "diagonal");
+			diagon.style.top = "320px";
+			diagon.style.left = "686px";
+			setTimeout(function () {diagon.remove();}, 700, diagon);
+		}
+		else if (cella === "c3"){
+			let diagon = document.createElement("img");
+			diagon.setAttribute("src","diagonaleAnimazione1.gif");
+			document.getElementById("body").appendChild(diagon);
+			diagon.setAttribute("id","diagonal");
+			diagon.style.top = "320px";
+			diagon.style.left = "686px";
+			setTimeout(function () {diagon.remove();}, 700, diagon);
+		}
+	}
+
+}
+
+function schermataFinale (){
+		
+	let vittoria = document.createElement("div");
+	if (count === 9) {
+		vittoria.innerHTML = "NESSUN VINCITORE";
+		vittoria.style.fontSize = "125px";
+	}
+	else {
+		vittoria.innerHTML = "VITTORIA!";
+		vittoria.style.fontSize = "200px";
+	}
+	document.getElementById("body").appendChild(vittoria);
+	vittoria.setAttribute("class","stile");
+	let bottone = document.createElement("div");
+	bottone.innerHTML= "NUOVA PARTITA";
+	bottone.style.fontSize= "50px";
+	vittoria.appendChild(bottone);
+	bottone.setAttribute("class","button");
+	bottone.setAttribute("onclick", "nuovaPartita()");
+	
+}
+
+function nuovaPartita(){
+
+	soundtrack = new Audio('nuovapartita.mp3');
+	soundtrack.play();
+
+	let segni = document.getElementsByClassName("segno");
+
+	Array.from(segni).forEach(element => element.remove());
+
+	document.getElementsByClassName("stile")[0].remove();
+	
+	isGameFinished = false;
+	count = 0;
+	
+	cerchi = [];
+	croci = [];
+	document.getElementById("barra").remove();
+	cella = null;
+	direzione = null;
+	
+}
+</script>
+</html>
