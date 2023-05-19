@@ -36,6 +36,16 @@ body {
 	background-color: black;
 }
 
+#gamebox {
+
+	background-color: black;  
+	z-index: 0;
+	position: absolute;	
+	top: 50%;
+	left: 50%;
+	margin: -220px 0 0 -640px;
+}
+
 .segno {
 	width: 200px;
 	height: 200px;
@@ -96,23 +106,25 @@ body {
 </head>
 <body id = "body">
 <h1>✘◑ TRIS ◐✘</h1>
-<table>
-	<tr>
-	<td id="c1" style = "border-style: none solid solid none" onclick="mossa(1)"></td>
-	<td id="c2" style = "border-style: none solid solid solid" onclick="mossa(2)"></td>
-	<td id="c3" style = "border-style: none none solid solid" onclick="mossa(3)"></td>
-	</tr>
-	<tr>
-	<td id="c4" style = "border-style: solid solid solid none" onclick="mossa(4)"></td>
-	<td id="c5" onclick="mossa(5)"></td>
-	<td id="c6" style = "border-style: solid none solid solid" onclick="mossa(6)"></td>
-	</tr>
-	<tr>
-	<td id="c7" style = "border-style: solid solid none none" onclick="mossa(7)"></td>
-	<td id="c8" style = "border-style: solid solid none solid"onclick="mossa(8)"></td>
-	<td id="c9" style = "border-style: solid none none solid" onclick="mossa(9)"></td>
-	</tr>
-</table>
+<div id="gamebox" style="width: 1280px; height: 720px;">
+	<table>
+		<tr>
+			<td id="c1" style = "border-style: none solid solid none" onclick="mossa(1)"></td>
+			<td id="c2" style = "border-style: none solid solid solid" onclick="mossa(2)"></td>
+			<td id="c3" style = "border-style: none none solid solid" onclick="mossa(3)"></td>
+		</tr>
+		<tr>
+			<td id="c4" style = "border-style: solid solid solid none" onclick="mossa(4)"></td>
+			<td id="c5" onclick="mossa(5)"></td>
+			<td id="c6" style = "border-style: solid none solid solid" onclick="mossa(6)"></td>
+		</tr>
+		<tr>
+			<td id="c7" style = "border-style: solid solid none none" onclick="mossa(7)"></td>
+			<td id="c8" style = "border-style: solid solid none solid"onclick="mossa(8)"></td>
+			<td id="c9" style = "border-style: solid none none solid" onclick="mossa(9)"></td>
+		</tr>
+	</table>
+</div>
 </body>
 <script>
 
@@ -229,36 +241,36 @@ function animazione(){
 
 		let elemento = document.createElement("div");
 		elemento.setAttribute("id", "barra");
-		document.getElementById("body").appendChild(elemento);
+		document.getElementById("gamebox").appendChild(elemento);
 		elemento = document.getElementById("barra");
 		
 		switch(cella){
 			case "c4" :
-				barra.style.top = "570px";
-				barra.style.left = "635px";
+				barra.style.top = "290px";
+				barra.style.left = "310px";
 				break;
 			case "c7" :
-				barra.style.top = "770px";
-				barra.style.left = "635px";
+				barra.style.top = "495px";
+				barra.style.left = "310px";
 				break;
 			case "c2" :
-				barra.style.top = "265px";
-				barra.style.left = "960px";
+				barra.style.top = "0px";
+				barra.style.left = "635px";
 				break;
 			case "c3" :
-				barra.style.top = "265px";
-				barra.style.left = "1170px";
+				barra.style.top = "0px";
+				barra.style.left = "845px";
 				break;
 		}
 		
 		if (cella === "c1" && direzione === "orizzontale"){
-			barra.style.top = "370px";
-			barra.style.left = "635px";
+			barra.style.top = "70px";
+			barra.style.left = "310px";
 		}
 
 		else if (cella === "c1" && direzione === "verticale"){
-			barra.style.top = "265px";
-			barra.style.left = "750px";
+			barra.style.top = "0px";
+			barra.style.left = "430px";
 		}
 		
 			
@@ -286,19 +298,19 @@ function animazione(){
 		if (cella === "c1"){
 			let diagon = document.createElement("img");
 			diagon.setAttribute("src","diagonaleAnimazione.gif");
-			document.getElementById("body").appendChild(diagon);
+			document.getElementById("gamebox").appendChild(diagon);
 			diagon.setAttribute("id", "diagonal");
-			diagon.style.top = "320px";
-			diagon.style.left = "686px";
+			diagon.style.top = "40px";
+			diagon.style.left = "370px";
 			setTimeout(function () {diagon.remove();}, 700, diagon);
 		}
 		else if (cella === "c3"){
 			let diagon = document.createElement("img");
 			diagon.setAttribute("src","diagonaleAnimazione1.gif");
-			document.getElementById("body").appendChild(diagon);
+			document.getElementById("gamebox").appendChild(diagon);
 			diagon.setAttribute("id","diagonal");
-			diagon.style.top = "320px";
-			diagon.style.left = "686px";
+			diagon.style.top = "80px";
+			diagon.style.left = "370px";
 			setTimeout(function () {diagon.remove();}, 700, diagon);
 		}
 	}
