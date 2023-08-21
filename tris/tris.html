@@ -3,7 +3,7 @@
 <head>
 <title>Tris</title>
 <style>
-h1 {
+#titolo {
 	
 	text-align: center;
 	font-size: 100px;
@@ -43,7 +43,7 @@ body {
 	position: absolute;	
 	top: 50%;
 	left: 50%;
-	margin: -220px 0 0 -640px;
+	margin: -420px 0 0 -640px;
 }
 
 .segno {
@@ -105,8 +105,11 @@ body {
 </style>
 </head>
 <body id = "body">
-<h1>✘◑ TRIS ◐✘</h1>
-<div id="gamebox" style="width: 1280px; height: 720px;">
+
+<div id="gamebox" style="width: 1280px; height: 800px;">
+	
+	<div id ="titolo">✘◑ TRIS ◐✘</div>
+	
 	<table>
 		<tr>
 			<td id="c1" style = "border-style: none solid solid none" onclick="mossa(1)"></td>
@@ -145,14 +148,15 @@ const diag1 = [1,5,9];
 const diag2 = [3,5,7];
 
 
-let isGameFinished;
+let isGameWon;
 let cella;
 let direzione;
 let elemento;
 
+
 function mossa(numero){
 
-	if (!isGameFinished){
+	if (!isGameWon){
 	
 		let test = document.createElement("div");
 		test.innerHTML = "✘";
@@ -183,12 +187,13 @@ function mossa(numero){
 			soundtrack.play();
 		}
 		
-		isGameFinished = count === 9 || (oriz1.every(x => cerchi.includes(x))) || (oriz2.every(x => cerchi.includes(x))) || 
+		isGameWon = (oriz1.every(x => cerchi.includes(x))) || (oriz2.every(x => cerchi.includes(x))) || 
 		(oriz3.every(x => cerchi.includes(x))) || (vert1.every(x => cerchi.includes(x))) || (vert2.every(x => cerchi.includes(x))) || 
 		(vert3.every(x => cerchi.includes(x))) || (diag1.every(x => cerchi.includes(x))) || (diag2.every(x => cerchi.includes(x))) || 
 		(oriz1.every(x => croci.includes(x))) || (oriz2.every(x => croci.includes(x))) || (oriz3.every(x => croci.includes(x))) || 
 		(vert1.every(x => croci.includes(x)))|| (vert2.every(x => croci.includes(x))) || (vert3.every(x => croci.includes(x))) || 
 		(diag1.every(x => croci.includes(x))) || (diag2.every(x => croci.includes(x))) 
+		
 		
 		if ((oriz1.every(x => cerchi.includes(x))) || (oriz1.every(x => croci.includes(x)))){
 			cella = "c1";
@@ -224,11 +229,11 @@ function mossa(numero){
 		}
 		
 		
-		if (isGameFinished && count !== 9){
+		if (isGameWon ){
 		animazione();
 		}
 		
-		if (isGameFinished) setTimeout(schermataFinale, 1000);
+		if (isGameWon || count === 9) setTimeout(schermataFinale, 1000);
 	}
 }
 
@@ -246,30 +251,30 @@ function animazione(){
 		
 		switch(cella){
 			case "c4" :
-				barra.style.top = "290px";
+				barra.style.top = "433px";
 				barra.style.left = "310px";
 				break;
 			case "c7" :
-				barra.style.top = "495px";
+				barra.style.top = "640px";
 				barra.style.left = "310px";
 				break;
 			case "c2" :
-				barra.style.top = "0px";
+				barra.style.top = "140px";
 				barra.style.left = "635px";
 				break;
 			case "c3" :
-				barra.style.top = "0px";
+				barra.style.top = "140px";
 				barra.style.left = "845px";
 				break;
 		}
 		
 		if (cella === "c1" && direzione === "orizzontale"){
-			barra.style.top = "70px";
+			barra.style.top = "223px";
 			barra.style.left = "310px";
 		}
 
 		else if (cella === "c1" && direzione === "verticale"){
-			barra.style.top = "0px";
+			barra.style.top = "140px";
 			barra.style.left = "430px";
 		}
 		
@@ -300,8 +305,8 @@ function animazione(){
 			diagon.setAttribute("src","diagonaleAnimazione.gif");
 			document.getElementById("gamebox").appendChild(diagon);
 			diagon.setAttribute("id", "diagonal");
-			diagon.style.top = "40px";
-			diagon.style.left = "370px";
+			diagon.style.top = "200px";
+			diagon.style.left = "399px";
 			setTimeout(function () {diagon.remove();}, 700, diagon);
 		}
 		else if (cella === "c3"){
@@ -309,7 +314,7 @@ function animazione(){
 			diagon.setAttribute("src","diagonaleAnimazione1.gif");
 			document.getElementById("gamebox").appendChild(diagon);
 			diagon.setAttribute("id","diagonal");
-			diagon.style.top = "80px";
+			diagon.style.top = "200px";
 			diagon.style.left = "370px";
 			setTimeout(function () {diagon.remove();}, 700, diagon);
 		}
@@ -317,10 +322,12 @@ function animazione(){
 
 }
 
+
+
 function schermataFinale (){
 		
 	let vittoria = document.createElement("div");
-	if (count === 9) {
+	if (count === 9 && !isGameWon) {
 		vittoria.innerHTML = "NESSUN VINCITORE";
 		vittoria.style.fontSize = "125px";
 	}
@@ -350,7 +357,7 @@ function nuovaPartita(){
 
 	document.getElementsByClassName("stile")[0].remove();
 	
-	isGameFinished = false;
+	isGameWon = false;
 	count = 0;
 	
 	cerchi = [];
